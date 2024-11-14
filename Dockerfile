@@ -7,7 +7,7 @@
 
 FROM openjdk:17-jdk-alpine as builder
 
-WORKDIR /app/ms-usuarios
+WORKDIR /app/ms-productos
 
 COPY ./pom.xml /app
 COPY ./ms-productos/.mvn ./.mvn
