@@ -1,0 +1,192 @@
+type Mutation{
+    # Mutaciones para Productos
+    guardarProducto(productoRequest: ProductoRequest): ProductoResponse,
+    actualizarProducto(id: String, productoRequest: ProductoRequest): ProductoResponse,
+    eliminarProducto(id: String): String
+
+    # Mutaciones para Categoria
+    guardarCategoria(nombre: String): Categoria,
+    actualizarCategoria(id: String, nombre: String): Categoria,
+    eliminarCategoria(id: String): String,
+
+    # Mutaciones para Marca
+    guardarMarca(nombre: String): Marca,
+    actualizarMarca(id: String, nombre: String): Marca,
+    eliminarMarca(id: String): String
+
+    # Mutaciones para DetalleVentas
+    guardarDetalleVenta(detalleVentaRequest: DetalleVentaRequest): DetalleVenta,
+    actualizarDetalleVenta(id: String, detalleVentaRequest: DetalleVentaRequest): DetalleVenta,
+    eliminarDetalleVenta(id: String): String
+
+    # Mutaciones para Ventas
+    guardarVenta(ventaRequest: VentaRequest): Venta,
+    actualizarVenta(id: String, ventaRequest: VentaRequest): Venta,
+    eliminarVenta(id: String): String
+
+    # Mutaciones para Pagos
+    guardarPago(pagoRequest: PagoRequest): Pago,
+    actualizarPago(id: String, pagoRequest: PagoRequest): Pago,
+    eliminarPago(id: String): String
+
+    # Mutaciones para Factura
+    guardarFactura(facturaRequest: FacturaRequest): Factura
+    actualizarFactura(id: String, facturaRequest: FacturaRequest): Factura
+    eliminarFactura(id: String): String
+}
+
+type Query{
+    # Consultas para Producto
+    listarProductos: [ProductoResponse],
+    listarProductoPorId(id: String): Producto,
+
+    # Consultas para Categoria
+    listarCategorias: [Categoria],
+    listarCategoriaPorId(id: String): Categoria,
+
+    # Consultas para Marca
+    listarMarcas: [Marca],
+    listarMarcaPorId(id: String): Marca
+
+    # Consultas para DetalleVenta
+    listarDetalleVentas: [DetalleVenta],
+    listarDetalleVentaPorId(id: String): DetalleVenta,
+
+    # Consultas para Venta
+    listarVentas: [Venta],
+    listarVentaPorId(id: String): Venta
+
+    # Consultas para Pago
+    listarPagos: [Pago],
+    listarPagoPorId(id: String): Pago
+    obtenerPagoPorVentaId(ventaId: String): Pago
+
+    # Consultas para Factura
+    listarFacturas: [Factura],
+    listarFacturaPorId(id: String): Factura
+}
+
+type Producto {
+    id: String,
+    nombre: String,
+    descripcion: String,
+    precio: Float,
+    stock: Int,
+    estado: String,
+    foto_url: String,
+    longitud: Int,
+    ancho: Int,
+    altura: Int,
+    peso: Float,
+    categoriaId: String,
+    marcaId: String
+}
+
+type ProductoResponse {
+    id: String,
+    nombre: String,
+    descripcion: String,
+    precio: Float,
+    stock: Int,
+    estado: String,
+    foto_url: String,
+    longitud: Int,
+    ancho: Int,
+    altura: Int,
+    peso: Float,
+    categoria: Categoria,
+    marca: Marca
+}
+
+type DetalleVenta {
+    id: String,
+    venta: Venta,
+    producto: Producto,
+    cantidad: Int
+}
+
+type Venta {
+    id: String,
+    fecha: String,
+    monto: Float,
+    clienteId: String,
+    vendedorId: String,
+    cajeroId: String,
+    detalles: [DetalleVenta]
+}
+
+type Pago {
+    id: String,
+    monto: Float,
+    metodoPago: String,
+    descripcion: String,
+    fecha: String,
+    venta: Venta
+}
+
+type Categoria {
+    id: String,
+    nombre: String
+}
+
+type Marca {
+    id: String,
+    nombre: String
+}
+
+type Factura {
+    id: String,
+    fechaEmision: String,
+    montoTotal: Float,
+    importe: Float,
+    saldo: Float,
+    pago: Pago
+}
+
+input ProductoRequest{
+    nombre: String,
+    descripcion: String,
+    precio: Float,
+    stock: Int,
+    estado: String,
+    foto_url: String,
+    longitud: Int,
+    ancho: Int,
+    altura: Int,
+    peso: Float,
+    categoriaId: String,
+    marcaId: String
+}
+
+input DetalleVentaRequest{
+    id: String,
+    ventaId: String,
+    productoId: String,
+    cantidad: Int
+}
+
+input VentaRequest {
+    id: String,
+    fecha: String,
+    monto: Float,
+    clienteId: String,
+    vendedorId: String,
+    cajeroId: String
+}
+
+input PagoRequest {
+    id: String,
+    monto: Float,
+    metodoPago: String,
+    descripcion: String,
+    fecha: String,
+    ventaId: String
+}
+
+input FacturaRequest {
+    fechaEmision: String,
+    montoTotal: Float,
+    importe: Float,
+    saldo: Float,
+    pagoId: String
+}
